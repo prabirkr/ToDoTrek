@@ -70,6 +70,8 @@ const login = async (req, res) => {
         }
         console.log({ JWT_SECRET: process.env.JWT_SECRET, refersh: process.env.JWT_REFRESH_SECRET })
 
+        
+
         // Generates tokens
         const accessToken = JWT.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "445s",
@@ -80,7 +82,7 @@ const login = async (req, res) => {
 
         const accessTokenPayload = JWT.decode(accessToken);
         const refreshTokenPayload = JWT.decode(refreshToken);
-
+ 
         // remove password field from user object  
         user.password = undefined;
 
