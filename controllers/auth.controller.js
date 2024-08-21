@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// REGISTER
+// User Registeration
 const register = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
         })
 
-        // remove password field from user object  
+        // Remove password field from user object  
         user.password = undefined;
 
         return res.status(StatusCodes.CREATED).send({
@@ -47,7 +47,7 @@ const register = async (req, res) => {
     }
 };
 
-// LOGIN
+// User Login
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -70,11 +70,11 @@ const login = async (req, res) => {
         }
         console.log({ JWT_SECRET: process.env.JWT_SECRET, refersh: process.env.JWT_REFRESH_SECRET })
 
-        
+
 
         // Generates tokens
         const accessToken = JWT.sign({ id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "445s",
+            expiresIn: "90s",
         });
         const refreshToken = JWT.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, {
             expiresIn: "60s",
@@ -82,8 +82,8 @@ const login = async (req, res) => {
 
         const accessTokenPayload = JWT.decode(accessToken);
         const refreshTokenPayload = JWT.decode(refreshToken);
- 
-        // remove password field from user object  
+
+        // Remove password field from user object  
         user.password = undefined;
 
         res.status(StatusCodes.OK).send({

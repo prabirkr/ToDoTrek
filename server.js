@@ -5,11 +5,8 @@ const dbconnection = require('./config/database.js');
 const authRoutes = require('./routes/auth.routes.js');
 const taskRoutes = require('./routes/task.routes.js');
 const session = require('express-session');
-const passport = require('passport');
+const passport = require('./controllers/oauth.controller.js');
 const JWT = require('jsonwebtoken')
-
-// Require and initialize OAuth controller
-require('./controllers/oauth.controller.js');
 
 
 // Load environment variables
@@ -47,13 +44,13 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req, res) {
 
-    // token generation for google user
-    const token = JWT.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '100s' })
+// token generation for google user
+    const token = JWT.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '90s' })
     console.log(token);
     res.status(StatusCodes.OK).json({  message: 'Authentication successful' });
   });
 
-// routes
+// routes 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/tasks', taskRoutes);
 

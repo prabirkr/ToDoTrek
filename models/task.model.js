@@ -10,7 +10,7 @@ const taskSchema = new mongoose.Schema({
         required: [true, "Todo description is required!"],
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId, 
         required: true,
         ref: 'User' 
     },
@@ -20,5 +20,5 @@ const taskSchema = new mongoose.Schema({
     }
 });
 
-// Ensure that model name matches the collection name in MongoDB
-module.exports = mongoose.model("Task", taskSchema); // Use capitalized model name for conventions
+
+module.exports = mongoose.model("Task", taskSchema); 

@@ -2,7 +2,6 @@ const express = require('express');
 const { createTask, getTask, updateTask, deleteTask } = require('../controllers/task.controller.js');
 const { validateCreateTask, validateUpdateTask, validateDeleteTask, handleValidationErrors } = require('../middlewares/validation.js');
 const userAuthentication = require('../middlewares/user.authentication.js');
-const { deleteOne } = require('../models/oauth.model.js');
 
 const router = express.Router();
 

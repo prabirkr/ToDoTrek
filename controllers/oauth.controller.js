@@ -20,7 +20,6 @@ passport.use(new GoogleStrategy({
             let user = await User.findOne({ email: profile.emails[0].value });
 
             if (user) {
-                // If the user is found, return the "already login" message
                 return done(null, user, { message: 'already login' });
             } else {
                 // If the user is not found, create a new user
@@ -41,15 +40,17 @@ passport.use(new GoogleStrategy({
 
 // Serialize user information into the session
 passport.serializeUser((user, done) => {
-    done(null, user.id); // Serialize just the user ID for simplicity
+    done(null, user.id); 
 });
 
 // Deserialize user information from the session
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findById(id); // Find user by ID
+        const user = await User.findById(id); 
         done(null, user);
     } catch (err) {
         done(err, null);
     }
 });
+
+module.exports = passport;

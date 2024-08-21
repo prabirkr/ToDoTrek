@@ -50,7 +50,7 @@ const createTask = async (req, res) => {
         const task = await userTask.create({
             title,
             todo,
-            userId: user._id
+            userId: user.id
         });
         return res.status(StatusCodes.CREATED).json({
             success: true,
