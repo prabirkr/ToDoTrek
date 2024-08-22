@@ -1,36 +1,35 @@
-const mongoose = require('mongoose'); // Import mongoose if using ObjectId validation
+const mongoose = require('mongoose'); 
 const userTask = require("../models/task.model.js");
 const { StatusCodes } = require('http-status-codes');
 
 // Get Task
 const getTask = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const { page = 1, limit = 10 } = req.query;
         const skip = (page - 1) * limit;
-        const userId = req.user.id;
-
-        const tasks = await userTask.find({ userId })
-            .skip(skip)
-            .limit(limit)
+        
+        const tasks = await userTask.find({ userId: req.user.id })
+            .skip(parseInt(skip))
+            .limit(parseInt(limit))
+            .exec();
 
         if (tasks.length === 0) {
             return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
-                message: 'No task available! Add task.',
+                message: 'No task available! Add task.'
             });
         }
+
         return res.status(StatusCodes.OK).json({
             success: true,
             message: 'Tasks fetched successfully',
             data: tasks
         });
-
     } catch (error) {
         console.error(error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Error fetching tasks',
+            message: 'Error fetching tasks'
         });
     }
 };

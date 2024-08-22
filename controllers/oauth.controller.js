@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
 },
 
-    async (request, accessToken, refreshToken, profile, done) => {
+    async ( profile, done) => {
         try {
             console.log('User Profile:', profile);
 
@@ -24,7 +24,6 @@ passport.use(new GoogleStrategy({
             } else {
                 // If the user is not found, create a new user
                 user = await User.create({
-                    // googleId: profile.id,
                     email: profile.emails[0].value,
                     displayName: profile.displayName
                 });
